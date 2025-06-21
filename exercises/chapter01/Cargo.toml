@@ -1,0 +1,20 @@
+[package]
+name = "chapter01"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+futures = { workspace = true }
+tokio = { workspace = true }
+
+[lib]
+name = "chapter01"
+path = "lib.rs"
+
+[[bin]]
+name = "ex01_basic_async"
+path = "ex01_basic_async.rs"
+
+[[bin]]
+name = "ex02_concurrent_download"
+path = "ex02_concurrent_download.rs"
