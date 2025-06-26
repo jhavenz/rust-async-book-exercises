@@ -1,103 +1,58 @@
-# 🚀 Getting Started - Quick Setup Guide
+# Getting Started
 
-## ⚡ Ultra-Quick Start (30 seconds)
-
-```bash
-# 1. Start the learning journey
-./async-exercises next
-
-# 2. Begin with the first exercise  
-./async-exercises run 1.1
-
-# 3. Open the exercise file in your editor
-# File will be shown in the terminal output, e.g.:
-# exercises/chapter01/ex01_basic_async.rs
-
-# 4. Implement the TODO sections
-
-# 5. Check your solution
-./async-exercises check 1.1
-
-# 6. Continue to next exercise when complete
-./async-exercises next
-```
-
-## 🎯 Learning Flow
-
-1. **List** - See all available exercises
-2. **Run** - Start an exercise and see the problem
-3. **Edit** - Implement the TODO sections in your favorite editor
-4. **Check** - Get instant feedback and automated testing
-5. **Progress** - Track your advancement through the material
-
-## 📝 Commands You'll Use
-
-| Action | Command | What it does |
-|--------|---------|--------------|
-| 📚 **Start** | `./async-exercises list` | See all exercises |
-| 🎯 **Next** | `./async-exercises next` | Get next exercise to work on |
-| 🚀 **Run** | `./async-exercises run 1.1` | Start working on exercise 1.1 |
-| 🔍 **Check** | `./async-exercises check 1.1` | Validate your solution |
-| 📊 **Track** | `./async-exercises progress` | See completion status |
-
-## 🛠️ What You Need
-
-- **Rust** (1.70+) - Already installed? ✓
-- **Your favorite editor** - VS Code, vim, emacs, etc.
-- **Terminal** - Where you'll run the exercises
-- **Curiosity** - Ready to learn async Rust!
-
-## 📂 Where to Edit
-
-Exercise files are located in:
-```
-exercises/
-├── chapter01/
-│   ├── ex01_basic_async.rs      ← Edit this for exercise 1.1
-│   └── ex02_concurrent_download.rs ← Edit this for exercise 1.2
-└── chapter02/
-    ├── ex01_future_trait.rs     ← Edit this for exercise 2.1
-    └── ex02_custom_executor.rs  ← Edit this for exercise 2.2
-```
-
-## 🎯 Exercise Pattern
-
-Each exercise follows this pattern:
-
-1. **Run the exercise** - See starter code and current behavior
-2. **Find TODO sections** - Look for `todo!("message")` markers
-3. **Read the comments** - They contain implementation hints
-4. **Implement the code** - Replace `todo!()` with working code
-5. **Check your solution** - Run tests and get feedback
-6. **Move to next** - Automatic progression when complete
-
-## ✅ Success Indicators
-
-- ✅ **Code compiles** - No compilation errors
-- ✅ **Tests pass** - All automated tests succeed  
-- ✅ **No TODOs** - All `todo!()` markers implemented
-- ✅ **Performance** - Timing tests verify async benefits
-
-## 🆘 If You Get Stuck
+## Quick Start
 
 ```bash
-# Check what you need to implement
-grep -n "todo!" exercises/chapter01/ex01_basic_async.rs
+# Generate your first exercise
+cargo run -- next
 
-# See detailed error messages
-cargo check --package chapter01 --bin ex01_basic_async
+# Open exercises/ch01_ex01.rs in your editor
 
-# Reset and start over
-./async-exercises reset 1.1
-
-# Get help
-./async-exercises help
+# Test your solution
+cargo run -- check
 ```
 
-## 🏁 Ready to Begin?
+## Command Reference
+
+| Command | Shorthand | Purpose |
+|---------|-----------|---------|
+| `cargo run -- next` | `./async-book next` | Continue learning |
+| `cargo run -- check` | `./async-book check` | Test current exercise |
+| `cargo run -- list` | `./async-book list` | View progress |
+| `cargo run -- run 1.2` | `./async-book run 1.2` | Jump to exercise |
+| `cargo run -- reset` | `./async-book reset` | Start over |
+
+## Exercise Workflow
+
+1. **Read** - Each exercise starts with comprehensive documentation
+2. **Implement** - Write code in the designated areas
+3. **Test** - Run `check` to validate your solution
+4. **Progress** - Pass all tests to unlock the next exercise
+
+## Tips
+
+- Read test names carefully - they describe expected behavior
+- Use `cargo test --bin ch01_ex01 -- --nocapture` for detailed output
+- Focus on making one test pass at a time
+- The compiler's error messages are your friend
+
+## Common Issues
+
+**"No such file or directory"**  
+Run `cargo run -- next` first to generate the exercise.
+
+**"Tests are failing"**  
+This is normal! Read the test output to understand what to implement.
+
+**"Cannot run exercise X.X"**  
+Complete previous exercises first. Check progress with `cargo run -- list`.
+
+## Next Steps
+
+Ready to begin? Start with:
 
 ```bash
-./async-exercises next
+cargo run -- next
 ```
 
-Happy coding! 🎉
+For comprehensive documentation, see the [README](README.md).

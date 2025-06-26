@@ -1,5 +1,26 @@
-/target
+# Rust build artifacts
+/target/
 **/*.rs.bk
 Cargo.lock
-.DS_Store
+
+# Generated exercise files
+/exercises/
+
+# Progress tracking
 progress.json
+.async-book-progress.json
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Debug files
+*.pdb
+CLAUDE.md

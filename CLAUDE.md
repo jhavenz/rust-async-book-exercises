@@ -1,192 +1,174 @@
-# Claude Context: Rust Async Programming Exercise System
+# Project Context for AI Assistants
 
-## 🎯 Project Overview
+This document provides essential context for AI assistants working with my Rust Async Book tutorial project.
 
-This is an **interactive learning system for Rust async programming** designed to teach developers asynchronous programming concepts through hands-on exercises. The system provides a CLI-driven experience with automated testing and progress tracking.
+## Project Overview
 
-## 🏗️ System Architecture
+My interactive tutorial that teaches Rust asynchronous programming through hands-on exercises. I've transformed theoretical concepts from the Rust Async Book into practical, test-driven exercises that unlock progressively as you demonstrate mastery.
 
-### **Core Components:**
+## Architecture
 
-1. **CLI Runner** (`runner/src/main.rs`)
-   - Interactive command-line interface for managing exercises
-   - Progress tracking with JSON persistence
-   - Automated testing and validation
-   - User-friendly feedback and guidance
+### Core Design Principles
 
-2. **Exercise Workspace** (`exercises/`)
-   - Structured learning modules organized by chapter
-   - Each exercise is a standalone Rust binary with tests
-   - Clear TODO markers guide implementation
-   - Progressive difficulty building understanding
+1. **Single Cargo Workspace** - All functionality consolidated into one project
+2. **Progressive Generation** - Exercises appear only when the learner is ready
+3. **Test-Driven Validation** - Progress determined by passing comprehensive test suites
+4. **Clean Implementation Areas** - Educational content separated from code areas
 
-3. **Reference Materials** (`async-book-source/`)
-   - Complete source code of the official Rust Async Book
-   - Provides authoritative context for exercise creation
-   - Contains examples and explanations for all async concepts
-   - Serves as reference when extending or debugging exercises
+### Key Components
 
-## 📚 Exercise Structure
+**Main Application** (`src/main.rs`)
+- Command-line interface for exercise management
+- Progress tracking with JSON persistence
+- Dynamic exercise file generation
+- Test execution and validation
 
-### **Current Exercises:**
+**Exercise System** (`src/exercises/`)
+- Template modules for each chapter
+- Generators that produce exercise files on demand
+- Comprehensive docblock instructions at file top
+- Clean code areas for implementation
 
-**Chapter 1: Async Fundamentals**
-- `ex01_basic_async.rs` - Learn async/await syntax and concurrency patterns
-- `ex02_concurrent_download.rs` - Compare threaded vs async performance
+**Reference Material** (`async-book-source/`)
+- Complete source of the Rust Async Book
+- Reference material I use for exercise content
+- Examples and explanations for all concepts
 
-**Chapter 2: Under the Hood** 
-- `ex01_future_trait.rs` - Implement custom Future types and understand polling
-- `ex02_custom_executor.rs` - Build a custom executor from scratch
+## Exercise Design
 
-### **Exercise Pattern:**
-Each exercise follows this structure:
+### Structure Pattern
+
 ```rust
-// Educational context and objectives
-// TODO: Implementation sections with clear guidance
-// main() function demonstrating concepts
-// #[cfg(test)] module with automated validation
+//! Exercise Title and Overview
+//! 
+//! Learning objectives and comprehensive instructions
+//! Background from the async book
+//! Implementation requirements
+//! Examples and hints
+
+// Clean implementation area
+
+#[cfg(test)]
+mod tests {
+    // Comprehensive validation
+}
 ```
 
-## 🎮 User Workflow
+### Content Guidelines
 
-**Primary Commands:**
-```bash
-./async-exercises list      # Show all exercises
-./async-exercises next      # Get next exercise to work on  
-./async-exercises run 1.1   # Start exercise 1.1
-./async-exercises check 1.1 # Validate solution with tests
-./async-exercises progress  # Show completion status
-```
+- All instructional content belongs in the docblock
+- No inline comments in the implementation area
+- Tests should validate understanding, not just syntax
+- Each exercise builds on previous concepts
 
-**Learning Flow:**
-1. User runs an exercise to see starter code
-2. User edits the exercise file, implementing TODO sections
-3. User checks solution for immediate feedback
-4. System automatically progresses to next exercise when complete
+## User Experience Flow
 
-## 🧪 Testing System
+1. User runs `cargo run -- next`
+2. The tutorial generates the next available exercise
+3. User implements solution following docblock instructions
+4. User runs `cargo run -- check` for validation
+5. All tests pass → next exercise unlocks automatically
 
-**Multi-layered Validation:**
-- **Compilation Tests** - Ensure code builds without errors
-- **Behavior Tests** - Verify correct implementation semantics
-- **Performance Tests** - Confirm async benefits (timing, concurrency)
-- **Completeness Tests** - Check all TODO markers are implemented
+## Technical Details
 
-**Test Integration:**
-- Each exercise has embedded `#[cfg(test)]` modules
-- Tests run via `cargo test --package chapterXX --bin exerciseYY`
-- Clear pass/fail feedback with descriptive error messages
+### Exercise Metadata
 
-## 📁 Directory Structure
+Each exercise contains:
+- Unique identifier (e.g., "1.1", "2.2")
+- Chapter and exercise number
+- Title describing the concept
+- Generator function producing the content
 
-```
-async-exercises/
-├── async-exercises*           # Main CLI executable script
-├── Cargo.toml                # Workspace configuration
-├── README.md                 # User-facing documentation
-├── GETTING_STARTED.md        # Quick start guide
-├── CLAUDE.md                 # This file - Claude context
-├── progress.json             # User progress tracking (auto-generated)
-│
-├── runner/                   # CLI tool source code
-│   ├── Cargo.toml
-│   └── src/main.rs          # Main CLI implementation
-│
-├── exercises/                # Exercise workspace
-│   ├── chapter01/           # Async fundamentals
-│   │   ├── Cargo.toml      
-│   │   ├── lib.rs          
-│   │   ├── ex01_basic_async.rs
-│   │   └── ex02_concurrent_download.rs
-│   └── chapter02/           # Advanced concepts
-│       ├── Cargo.toml      
-│       ├── lib.rs          
-│       ├── ex01_future_trait.rs
-│       └── ex02_custom_executor.rs
-│
-└── async-book-source/        # Official Rust Async Book source
-    ├── src/                 # Book chapters in Markdown
-    │   ├── 01_getting_started/
-    │   ├── 02_execution/
-    │   ├── 03_async_await/
-    │   └── ...
-    └── examples/            # Official book examples
-        ├── 01_02_why_async/
-        ├── 02_02_future_trait/
-        └── ...
-```
+### Progress Tracking
 
-## 🔍 Why async-book-source Exists
+`progress.json` maintains:
+- Completed exercises map
+- Current exercise identifier
+- Automatically updated on test success
 
-**Primary Purposes:**
+### Test-Based Completion
 
-1. **Authoritative Reference** - Contains the complete, official Rust Async Book source code that serves as the canonical reference for async concepts
+I've set it up to determine completion by:
+1. Running exercise-specific tests
+2. Checking all tests pass
+3. No reliance on TODO markers or string matching
+4. Automatic progression on success
 
-2. **Exercise Foundation** - All exercises are based on concepts and examples from this book, ensuring alignment with official Rust async guidance
+## Development Workflow
 
-3. **Context for Claude** - When working on this project, Claude can reference:
-   - Book chapters for conceptual understanding
-   - Official examples for implementation patterns  
-   - Progression and difficulty ordering from the book structure
+### Adding New Exercises
 
-4. **Future Development** - Enables creation of additional exercises based on book content:
-   - Streams and async iteration (Chapter 5)
-   - Multiple futures and combinators (Chapter 6) 
-   - Advanced patterns and workarounds (Chapter 7)
-   - Real-world examples (Chapter 9)
+1. Study relevant async book chapters
+2. Create generator function in appropriate chapter module
+3. Write comprehensive docblock instructions
+4. Design tests that validate conceptual understanding
+5. Test the complete flow from generation to completion
 
-**Key Reference Files:**
-- `async-book-source/src/SUMMARY.md` - Complete book structure
-- `async-book-source/src/01_getting_started/` - Foundation concepts
-- `async-book-source/src/02_execution/` - Future trait and executors
-- `async-book-source/examples/` - Working code examples
+### Modifying Existing Exercises
 
-## 🛠️ Development Guidelines
+1. Update generator function in `src/exercises/`
+2. Ensure docblock remains comprehensive
+3. Verify tests still validate core concepts
+4. Test that progression flow remains intact
 
-**When Modifying Exercises:**
-1. Ensure exercises build and tests pass: `cargo test`
-2. Maintain clear TODO markers with implementation hints
-3. Keep exercises focused on specific learning objectives
-4. Reference async-book-source for concept accuracy
+### Key Invariants
 
-**When Adding New Exercises:**
-1. Study relevant chapters in `async-book-source/src/`
-2. Follow existing exercise patterns and naming conventions
-3. Add appropriate test coverage and validation
-4. Update CLI runner with new exercise metadata
+- Exercises must be completable with only the provided instructions
+- Tests must be comprehensive enough to ensure understanding
+- Each exercise should take 15-30 minutes for a competent Rust developer
+- The progression should feel natural and educational (at least that's what I'm aiming for)
 
-**When Debugging Issues:**
-1. Check `async-book-source/examples/` for reference implementations
-2. Review book chapters for conceptual guidance
-3. Ensure workspace dependencies are correctly configured
-4. Verify CLI runner handles new exercises properly
+## Implementation Status
 
-## 🎯 Learning Objectives
+### Completed Features
 
-**Chapter 1 Goals:**
-- Understand async/await syntax and semantics
-- Compare sync vs async performance characteristics
-- Learn when to use async vs threads
-- Master basic concurrency patterns
+- Single Cargo workspace architecture
+- Progressive exercise generation system
+- Test-based completion detection
+- 10 exercises across 5 chapters
+- CLI with all essential commands
+- Persistent progress tracking
 
-**Chapter 2 Goals:**  
-- Understand the Future trait and polling model
-- Learn about Wakers and efficient scheduling
-- Implement custom Future types
-- Build simple executors from scratch
+### Exercise Coverage
 
-## 🚀 Usage for Claude
+1. **Chapter 1** - Basic async/await and concurrent execution
+2. **Chapter 2** - Future trait and custom executors
+3. **Chapter 3** - Lifetime management in async contexts
+4. **Chapter 4** - Multiple futures with join/select
+5. **Chapter 5** - Async streams and iteration
 
-When working with this project:
+## Working with the Codebase
 
-1. **For Exercise Questions** - Reference `async-book-source/src/` chapters for authoritative explanations
+### Important Files
 
-2. **For Implementation Help** - Check `async-book-source/examples/` for working code patterns
+- `src/main.rs` - CLI entry point and command handling
+- `src/exercises/mod.rs` - Exercise registry and management
+- `src/exercises/chapter*.rs` - Exercise generators by chapter
+- `progress.json` - User progress (git-ignored)
+- `exercises/` - Generated exercise files (git-ignored)
 
-3. **For New Exercise Ideas** - Review book structure in `SUMMARY.md` for additional topics
+### Best Practices
 
-4. **For Concept Verification** - Use book source as ground truth for async Rust best practices
+1. Maintain consistency in exercise structure
+2. Keep instructional content in docblocks only
+3. Ensure tests are meaningful, not trivial
+4. Reference async book content accurately
+5. Test the full user experience flow
 
-5. **For Debugging** - Exercise test failures can be understood by referencing the corresponding book concepts
+### Common Pitfalls
 
-This system provides a complete, self-contained learning environment for Rust async programming with built-in guidance, testing, and reference materials.
+- Don't put comments in implementation areas
+- Don't create exercises that require external knowledge
+- Don't make tests that can pass without understanding
+- Don't break the progressive unlocking system
+
+## Future Considerations
+
+The architecture I've built supports:
+- Additional chapters and exercises
+- Alternative progression paths
+- Hint systems or guided mode
+- Integration with language servers
+- Performance benchmarking exercises
+
+When extending this project, please maintain my core philosophy of progressive, test-driven learning with clean separation between instruction and implementation.

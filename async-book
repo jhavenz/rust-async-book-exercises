@@ -1,0 +1,11 @@
+#!/bin/bash
+# My Rust Async Book Tutorial launcher
+
+# Build the project if needed
+if [ ! -f "target/release/async-book" ] || [ "src/main.rs" -nt "target/release/async-book" ]; then
+    echo "Building async-book..."
+    cargo build --release --quiet
+fi
+
+# Run with arguments
+exec cargo run --release --quiet -- "$@"
